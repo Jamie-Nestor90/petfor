@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+    <display-name>petfor</display-name>
+    <welcome-file-list>
+      <welcome-file>index.jsp</welcome-file>
+      <welcome-file>index.html</welcome-file>
+      <welcome-file>index.htm</welcome-file>
+    </welcome-file-list>
+  
+   <!-- DBCPInitListener클래스의 역할 : JDBC 커넥션 풀을 초기화-->
+   <!-- listener>
+      <listener-class>jdbc.DBCPInitListener</listener-class>
+   </listener-->
+   
+   <!-- Java Database Connectivity(JDBC)를 사용하여 데이터베이스에 연결하기 위한 설정 정보
+   <context-param>
+      <param-name>파라미터이름</param-name>
+      <param-value>
+         jdbcdriver=JDBC 드라이버 클래스
+         jdbcUrl=연결DMBS위치:port번호,db정보,인코딩정보등
+         dbUser=계정명
+         dbPass=비밀번호
+         validationQuery=커넥션 풀에서 커넥션의 유효성을 검사할 때 사용하는 쿼리
+         minIdle=커넥션 풀에서 유지되는 최소한의 유휴(Idle) 커넥션 수
+         maxTotal=커넥션 풀에서 관리할 수 있는 최대 커넥션 수
+         poolName=커넥션 풀의 이름
+      </param-value>
+   </context-param>
+    -->
+
+
+   <!-- MySQL -->
+   <!-- context-param>
+      <param-name>poolConfig</param-name>
+      <param-value>
+         jdbcdriver=com.mysql.jdbc.Driver
+         jdbcUrl=jdbc:mysql://localhost:3306/board?characterEncoding=utf8
+         dbUser=pet
+         dbPass=jspexam
+         validationQuery=select 1
+         minIdle=3
+         maxTotal=30
+         poolName=board
+      </param-value>
+   </context-param-->
+   
+   <!-- Oracle 
+   <context-param>
+      <param-name>poolConfig</param-name>
+      <param-value>
+         jdbcdriver=oracle.jdbc.driver.OracleDriver
+         jdbcUrl=jdbc:oracle:thin:@localhost:1521:xe
+         dbUser=jspexam
+         dbPass=jspexam
+         validationQuery=select 1 from dual
+         minIdle=3
+         maxTotal=30
+         poolName=board
+      </param-value>
+   </context-param>
+   -->
+
+   <!-- 한글 인코딩 설정 -->
+   <!-- filter>
+      <filter-name>encodingFilter</filter-name>
+      <filter-class>util.CharacterEncodingFilter</filter-class>
+      <init-param>
+         <param-name>encoding</param-name>
+         <param-value>utf-8</param-value>
+      </init-param>
+   </filter>
+
+   <filter-mapping>
+      <filter-name>encodingFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+   </filter-mapping-->
+
+
+   <!-- URI를 이용하여 담당컨트롤러와 연결을 위한 환경설정 
+       여기에서는 .do로 끝나는 모든  URI는
+       mvc.controller패키지안의  ControllerUsingURI클래스에서 설정한 내용으로
+       담당 컨트롤러를 호출하겠다.
+   -->
+   <servlet>
+      <servlet-name>ControllerUsingURI</servlet-name>
+      <servlet-class>mvc.controller.ControllerUsingURI</servlet-class>
+      <init-param>
+         <param-name>configFile</param-name>
+         <param-value>
+                /WEB-INF/commandHandlerURI.properties
+            </param-value>
+      </init-param>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
+
+   <servlet-mapping>
+      <servlet-name>ControllerUsingURI</servlet-name>
+      <url-pattern>*.do</url-pattern>
+   </servlet-mapping>
+
+
+   <!-- 로그인 체크관련필터 
+   <filter>
+      <filter-name>LoginCheckFilter</filter-name>
+      <filter-class>filter.LoginCheckFilter</filter-class>
+   </filter>
+   <filter-mapping>
+      <filter-name>LoginCheckFilter</filter-name>
+      <url-pattern>/changePwd.do</url-pattern>
+      <url-pattern>/article/write.do</url-pattern>
+      <url-pattern>/article/modify.do</url-pattern>
+   </filter-mapping>
+   -->
+</web-app>
